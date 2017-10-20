@@ -157,5 +157,43 @@ User Utils::read()
     return user;
 }
 
+//比较字符串与lineedit 是否相同
+bool Utils::lineEditStr(QString str,QLineEdit* le)
+{
+    bool ret = false;
+    QString lestr = le->text();
+    if(str == lestr)
+    {
+        ret = true;
+    }
+    else
+    {
+        ret = false;
+    }
+    return ret;
+}
+//获取验证码
+QString Utils::getCaptcha()
+{
+    QString ret = "";
+    for(int i = 0; i < 4; i++)
+    {
+        int c = (qrand() % 2) ? 'a' : 'A';
+        ret += static_cast<QChar>(c + qrand() % 26);
+    }
+    qDebug()<<"验证码："<<ret;
+    return ret;
+}
+// 绘制验证码字体颜色
+Qt::GlobalColor* Utils::getColor()
+{
+    static Qt::GlobalColor colors[4];
+    for(int i = 0; i < 4; i++)
+    {
+        colors[i] = static_cast<Qt::GlobalColor>((qrand() % 16) + 2);
+    }
+    return colors;
+}
+
 
 

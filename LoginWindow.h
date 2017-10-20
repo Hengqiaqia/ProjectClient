@@ -12,6 +12,7 @@
 #include "MainWindow.h"
 #include <QKeyEvent>
 #include "Utils.h"
+#include "ForgetPass.h"
 namespace Ui {
 class LoginWindow;
 }
@@ -42,11 +43,12 @@ private slots:
     void keyPressEvent(QKeyEvent * event);
 private:
     Ui::LoginWindow *ui;
-    Register* reg;
+    Register* reg;// 注册页面
     QTcpSocket* socket;
-    MainWindow* mainwindow;
+    MainWindow* mainwindow;//登录成功主页面
     Utils* utils;
     int loginnumber;
+    ForgetPass* forgetpass;//忘记密码页面
 };
 
 #endif // LOGINWINDOW_H

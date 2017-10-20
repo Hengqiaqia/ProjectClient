@@ -31,7 +31,8 @@ SOURCES += \
     ClickableLabel.cpp \
     Register.cpp \
     User.cpp \
-    Utils.cpp
+    Utils.cpp \
+    ForgetPass.cpp
 
 
 HEADERS += \
@@ -41,12 +42,14 @@ HEADERS += \
     Register.h \
     packet.h \
     User.h \
-    Utils.h
+    Utils.h \
+    ForgetPass.h
 
 FORMS += \
         MainWindow.ui \
     LoginWindow.ui \
-    Register.ui
+    Register.ui \
+    ForgetPass.ui
 
 RESOURCES += \
     res.qrc

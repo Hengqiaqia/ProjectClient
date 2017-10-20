@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QFileInfo>
+#include <QLineEdit>
 #include "User.h"
 class Utils
 {
@@ -14,6 +15,12 @@ public:
    void  write(int username,QString context);
    User  read();
    QString jsonObjecstr;//json 第一层串
+
+   bool lineEditStr(QString,QLineEdit*);
+
+   QString getCaptcha();
+   Qt::GlobalColor* getColor();
+
 };
 
 #endif // UTILS_H

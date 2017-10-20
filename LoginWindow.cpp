@@ -153,7 +153,9 @@ void LoginWindow::onReadRead()
 // 忘记密码
 void LoginWindow::on_btn_forgetpass_clicked()
 {
-
+    //this->close();
+    forgetpass = new ForgetPass();
+    forgetpass->show();
 }
 //记住密码
 void LoginWindow::on_cb_remeberpw_stateChanged(int state)
