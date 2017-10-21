@@ -136,9 +136,9 @@ void LoginWindow::onReadRead()
         //如果选中自动登录或者记住密码 保存数据到文件中
         if(autologinflag||remepassflag)
         {
-            utils->write(username.toInt(),utils->groupjson(ui->le_username->text(),ui->le_passwd->text()));
+            utils->write(0,utils->groupjson(ui->le_username->text(),ui->le_passwd->text()));
         }else{
-            utils->write(username.toInt(),utils->groupjson(ui->le_username->text(),""));
+            utils->write(0,utils->groupjson(ui->le_username->text(),""));
         }
         break;
     case TYPE_SELALL_ERROR:
@@ -150,7 +150,20 @@ void LoginWindow::onReadRead()
         emit sendverification(QString(data.msg));
         qDebug()<<"获取手机验证码:"<<QString(data.msg);
         break;
+    case TYPE_UPDATE_SUCCESS:
 
+//         updatepasswd = new UpdatePasswd(socket,data);
+//         updatepasswd->close();
+//         forgetpass = new ForgetPass(socket,"");
+//         forgetpass->close();
+        QMessageBox::information(this,"修改密码","修改成功，点击确认");
+       //修改密码
+        ui->le_username->setText(QString(data.username));
+        ui->le_passwd->setText("");
+        break;
+    case TYPE_UPDATE_ERROR:
+        QMessageBox::critical(this,"修改密码","修改失败"+QString(data.msg));
+        break;
     default:
         break;
     }

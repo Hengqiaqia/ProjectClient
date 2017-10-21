@@ -59,8 +59,8 @@ ForgetPass::~ForgetPass()
 //根据手机号获取验证码
 void ForgetPass::on_btn_phoneverification_clicked()
 {
-     QString userName = ui->le_username->text();//获取当前页面的账号
-     //判断获取账号  前面传过来数据，当前页面没有数据  用前面的 否则用当前页面的
+    QString userName = ui->le_username->text();//获取当前页面的账号
+    //判断获取账号  前面传过来数据，当前页面没有数据  用前面的 否则用当前页面的
     if(!username.isEmpty()&&userName.isEmpty())
     {
         userName=username;
@@ -77,7 +77,7 @@ void ForgetPass::on_btn_phoneverification_clicked()
         {
             qDebug()<<"根据手机号 验证码正确："<<m_captcha;
             //发送信号 提示服务端生成验证码
-           Packet data;
+            Packet data;
             strcpy(data.username,userName.toStdString().data());
             strcpy(data.phonenumber,ui->le_phonenumber->text().toStdString().data());
             data.type = TYPE_SEND_VER;
@@ -94,6 +94,13 @@ void ForgetPass::on_btn_phoneverification_clicked()
 //重置密码
 void ForgetPass::on_btn_resetpass_clicked()
 {
+    QString userName = ui->le_username->text();//获取当前页面的账号
+    //判断获取账号  前面传过来数据，当前页面没有数据  用前面的 否则用当前页面的
+    if(!username.isEmpty()&&userName.isEmpty())
+    {
+        userName=username;
+    }
+
     if(ui->le_phonenumber->text().isEmpty())
     {
         QMessageBox::critical(this,"重置密码","请输入手机号码");
@@ -105,6 +112,12 @@ void ForgetPass::on_btn_resetpass_clicked()
             if(utils.lineEditStr(phoneverification,ui->le_phoneverification))
             {
                 qDebug()<<"进入修改密码界面";
+                Packet data;
+                strcpy(data.username,userName.toStdString().data());
+                strcpy(data.phonenumber,ui->le_phonenumber->text().toStdString().data());
+                uppasswd=new UpdatePasswd(socket,data);
+                uppasswd->show();
+
             }else if(ui->le_verificaition->text().isEmpty()){
                 QMessageBox::critical(this,"重置密码","请输入收到的验证码");
             }else{
@@ -149,7 +162,7 @@ void ForgetPass::on_btn_verification_clicked()
     m_captcha = utils.getCaptcha();
     update();
 }
-//接收到数据 响应
+//接收到验证码数据 响应
 void ForgetPass::on_sendverification(QString verificaiton)
 {
     phoneverification = verificaiton;

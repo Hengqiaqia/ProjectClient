@@ -24,6 +24,8 @@
 #define TYPE_SEND_VERERROR   22
 #define TYPE_SEND_VERSUCSS   23
 
+
+
 typedef struct packet
 {
     int type;

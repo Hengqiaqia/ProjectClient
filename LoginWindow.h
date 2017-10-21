@@ -13,6 +13,8 @@
 #include <QKeyEvent>
 #include "Utils.h"
 #include "ForgetPass.h"
+#include "UpdatePasswd.h"
+
 namespace Ui {
 class LoginWindow;
 }
@@ -49,6 +51,7 @@ private:
     Utils* utils;
     int loginnumber;
     ForgetPass* forgetpass;//忘记密码页面
+    UpdatePasswd* updatepasswd;
 };
 
 #endif // LOGINWINDOW_H

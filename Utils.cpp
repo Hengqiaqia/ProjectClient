@@ -161,12 +161,12 @@ User Utils::read()
 bool Utils::lineEditStr(QString str,QLineEdit* le)
 {
     //区分大小写
-        Qt::CaseSensitivity cs = Qt::CaseSensitive;
+//        Qt::CaseSensitivity cs = Qt::CaseSensitive;
 //        if (str1.compare(str2, cs) == 0);{
 //            //全词匹配
 //        }
 //        //不区分大小写
-        cs = Qt::CaseInsensitive;
+          Qt::CaseSensitivity  cs = Qt::CaseInsensitive;
 //        if (str1.compare(str2, cs) == 0);{
 //            //全词匹配
 //        }

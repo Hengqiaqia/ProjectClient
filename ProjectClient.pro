@@ -32,7 +32,8 @@ SOURCES += \
     Register.cpp \
     User.cpp \
     Utils.cpp \
-    ForgetPass.cpp
+    ForgetPass.cpp \
+    UpdatePasswd.cpp
 
 
 HEADERS += \
@@ -43,13 +44,15 @@ HEADERS += \
     packet.h \
     User.h \
     Utils.h \
-    ForgetPass.h
+    ForgetPass.h \
+    UpdatePasswd.h
 
 FORMS += \
         MainWindow.ui \
     LoginWindow.ui \
     Register.ui \
-    ForgetPass.ui
+    ForgetPass.ui \
+    UpdatePasswd.ui
 
 RESOURCES += \
     res.qrc

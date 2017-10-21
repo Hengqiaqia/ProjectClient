@@ -8,7 +8,7 @@
 #include "ClickableLabel.h"
 #include "packet.h"
 #include <QTcpSocket>
-
+#include "UpdatePasswd.h"
 namespace Ui {
 class ForgetPass;
 }
@@ -41,6 +41,7 @@ private:
 
     QTcpSocket* socket;
     QString username;
+    UpdatePasswd* uppasswd;
 
 protected:
     void paintEvent(QPaintEvent* evt);
