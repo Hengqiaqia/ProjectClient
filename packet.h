@@ -20,6 +20,9 @@
 #define TYPE_SEL             18
 #define TYPE_SEL_ERROR       19
 #define TYPE_SEL_SUCCESS     20
+#define TYPE_SEND_VER        21
+#define TYPE_SEND_VERERROR   22
+#define TYPE_SEND_VERSUCSS   23
 
 typedef struct packet
 {

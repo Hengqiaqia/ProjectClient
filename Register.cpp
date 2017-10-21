@@ -6,6 +6,18 @@ Register::Register(QTcpSocket * socket,QWidget *parent) :
     ui(new Ui::Register)
 {
     ui->setupUi(this);
+
+    ui->btn_login->setStyleSheet("QPushButton{background: transparent;border-image: url(:/new/prefix1/login_a.jpg);color: rgb(255, 255, 255);font: 75 18pt 'Hannotate SC';}"
+                                 "QPushButton:hover{border-image: url(:/new/prefix1/login_b.jpg);}"
+                                 "QPushButton:pressed{border-image: url(:/new/prefix1/login_c.jpg);}");
+    ui->btn_register->setStyleSheet("QPushButton{background: transparent;border-image: url(:/new/prefix1/login_a.jpg);color: rgb(255, 255, 255);font: 75 18pt 'Hannotate SC';}"
+                                    "QPushButton:hover{border-image: url(:/new/prefix1/login_b.jpg);}"
+                                    "QPushButton:pressed{border-image: url(:/new/prefix1/login_c.jpg);}");
+    ui->btn_verification->setStyleSheet("QPushButton{background: transparent;color: rgb(36, 36, 234);font: 75 16pt 'Hannotate SC';}"
+                                        "QPushButton:hover{color: rgb(13, 23, 183);}"
+                                        "QPushButton:pressed{color: rgb(26, 30, 200);}");
+
+
     ui->le_nickname->setPlaceholderText("请输入昵称");
     ui->le_passwd->setPlaceholderText("请输入密码");
     ui->le_passrewd->setPlaceholderText("请再次输入密码");

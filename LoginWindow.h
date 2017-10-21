@@ -25,7 +25,7 @@ public:
     explicit LoginWindow(QWidget *parent = 0);
     ~LoginWindow();
 signals:
-
+    void sendverification(QString);
 private slots:
     void on_btn_register_clicked();
 

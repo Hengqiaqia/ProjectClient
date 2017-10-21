@@ -14,15 +14,15 @@ LoginWindow::LoginWindow(QWidget *parent) :
     movie->start();
 
     //登录按钮的鼠标划过事件
-    ui->btn_login->setStyleSheet("QPushButton{border-image: url(:/new/prefix1/login_a.jpg);color: rgb(255, 255, 255);font: 75 18pt 'Hannotate SC';}"
+    ui->btn_login->setStyleSheet("QPushButton{background: transparent;border-image: url(:/new/prefix1/login_a.jpg);color: rgb(255, 255, 255);font: 75 18pt 'Hannotate SC';}"
                                  "QPushButton:hover{border-image: url(:/new/prefix1/login_b.jpg);}"
                                  "QPushButton:pressed{border-image: url(:/new/prefix1/login_c.jpg);}");
     //注册按钮
-    ui->btn_register->setStyleSheet("QPushButton{color: rgb(0, 0, 255);font: 75 16pt 'Hannotate SC';}"
+    ui->btn_register->setStyleSheet("QPushButton{background: transparent;color: rgb(0, 0, 255);font: 75 16pt 'Hannotate SC';}"
                                     "QPushButton:hover{color: rgb(32, 32, 251);}"
                                     "QPushButton:pressed{color: rgb(52, 52, 231);}");
     //忘记密码
-    ui->btn_forgetpass->setStyleSheet("QPushButton{color: rgb(36, 36, 247);font: 75 16pt 'Hannotate SC';}"
+    ui->btn_forgetpass->setStyleSheet("QPushButton{background: transparent;color: rgb(36, 36, 247);font: 75 16pt 'Hannotate SC';}"
                                       "QPushButton:hover{color: rgb(34, 34, 229);}"
                                       "QPushButton:pressed{color: rgb(46, 46, 244);}");
 
@@ -145,6 +145,12 @@ void LoginWindow::onReadRead()
         qDebug()<<username<<":登录失败";
         QMessageBox::information(this,"QQ登录","登录失败\n"+QString(data.msg));
         break;
+    case TYPE_SEND_VERSUCSS:case TYPE_SEND_VERERROR:
+
+        emit sendverification(QString(data.msg));
+        qDebug()<<"获取手机验证码:"<<QString(data.msg);
+        break;
+
     default:
         break;
     }
@@ -154,8 +160,10 @@ void LoginWindow::onReadRead()
 void LoginWindow::on_btn_forgetpass_clicked()
 {
     //this->close();
-    forgetpass = new ForgetPass();
+    forgetpass = new ForgetPass(socket,ui->le_username->text());
     forgetpass->show();
+    connect(this,SIGNAL(sendverification(QString)),
+            forgetpass,SLOT(on_sendverification(QString)));
 }
 //记住密码
 void LoginWindow::on_cb_remeberpw_stateChanged(int state)

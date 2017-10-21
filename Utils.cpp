@@ -160,14 +160,26 @@ User Utils::read()
 //比较字符串与lineedit 是否相同
 bool Utils::lineEditStr(QString str,QLineEdit* le)
 {
+    //区分大小写
+        Qt::CaseSensitivity cs = Qt::CaseSensitive;
+//        if (str1.compare(str2, cs) == 0);{
+//            //全词匹配
+//        }
+//        //不区分大小写
+        cs = Qt::CaseInsensitive;
+//        if (str1.compare(str2, cs) == 0);{
+//            //全词匹配
+//        }
+
     bool ret = false;
     QString lestr = le->text();
-    if(str == lestr)
+    if(str.compare(lestr,cs)==0)
     {
         ret = true;
     }
     else
     {
+        qDebug()<<"字符串比较结果："<<str.compare(lestr,cs);
         ret = false;
     }
     return ret;
