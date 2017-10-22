@@ -5,6 +5,8 @@
 #include <string.h>
 #include <QDebug>
 #include <vector>
+
+
 using namespace std;
 MainWindow::MainWindow(QTcpSocket* socket,Packet data,QWidget *parent) :
     QMainWindow(parent),
@@ -59,7 +61,15 @@ void MainWindow::on_btn_voice_clicked()
 //视频
 void MainWindow::on_btn_video_clicked()
 {
-
+    ClientMainWindow w;
+    InputAdminPasswordDialog dialog;
+    connect(&dialog,SIGNAL(adminInfo_signals(QString,QString)),&w,SLOT(writeAdminNamePassWord(QString,QString)));
+    connect(&dialog,SIGNAL(sig_IpAndPort(QString,int)),&w,SLOT(setIPandPort(QString,int)));
+    connect(&w,SIGNAL(adminLoginResult_signals()),&dialog,SLOT(close()));
+    connect(&w,SIGNAL(sig_loginError()),&dialog,SLOT(slt_loginError()));
+    connect(&w,SIGNAL(connectError()),&dialog,SLOT(slt_connectError()));
+    connect(&dialog,SIGNAL(sig_quit()),this,SLOT(quit()));
+    dialog.show();
 }
 //搜索联系人
 void MainWindow::on_btn_search_clicked()
@@ -184,7 +194,7 @@ void MainWindow::showLayout(int flag)
 bool MainWindow::eventFilter(QObject *obj, QEvent *e)
 {
     Q_ASSERT(obj == ui->te_sendcontent||obj==ui->te_singalsendcontent);
-     QString   sendcontent = "";
+    QString   sendcontent = "";
     if (e->type() == QEvent::KeyPress)
     {
         QKeyEvent *event = static_cast<QKeyEvent*>(e);
@@ -209,13 +219,13 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *e)
         {
             if(obj==ui->te_singalsendcontent)
             {
-                    sendcontent = ui->te_singalsendcontent->toPlainText();
+                sendcontent = ui->te_singalsendcontent->toPlainText();
                 qDebug()<<"单聊："<<sendcontent;
                 ui->te_singalsendcontent->clear();
             }
             if(obj==ui->te_sendcontent)
             {
-                   sendcontent = ui->te_sendcontent->toPlainText();
+                sendcontent = ui->te_sendcontent->toPlainText();
                 qDebug()<<"群聊："<<sendcontent;
                 ui->te_sendcontent->clear();
             }

@@ -12,6 +12,9 @@
 #include "packet.h"
 #include <QKeyEvent>
 #include <QTextCodec>
+#include "InputhostAddressDialog.h"
+#include "ClientMainWindow.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -54,6 +57,7 @@ private:
     QTcpSocket* socket;
     Packet data;
     QList<User> userlist ;//所有用户的数据
+
 
 
 };

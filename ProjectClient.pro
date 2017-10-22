@@ -33,7 +33,14 @@ SOURCES += \
     User.cpp \
     Utils.cpp \
     ForgetPass.cpp \
-    UpdatePasswd.cpp
+    UpdatePasswd.cpp \
+    AdminControlWidget.cpp \
+    ClientMainWindow.cpp \
+    ClientSocket.cpp \
+    InputAdminPasswordDialog.cpp \
+    InputhostAddressDialog.cpp \
+    NetworkConfigurationDialog.cpp \
+    RecordAVI.cpp
 
 
 HEADERS += \
@@ -45,16 +52,42 @@ HEADERS += \
     User.h \
     Utils.h \
     ForgetPass.h \
-    UpdatePasswd.h
+    UpdatePasswd.h \
+    CommandType.h \
+    AdminControlWidget.h \
+    ClientMainWindow.h \
+    ClientSocket.h \
+    InputAdminPasswordDialog.h \
+    InputhostAddressDialog.h \
+    NetworkConfigurationDialog.h \
+    RecordAVI.h
 
 FORMS += \
         MainWindow.ui \
     LoginWindow.ui \
     Register.ui \
     ForgetPass.ui \
-    UpdatePasswd.ui
+    UpdatePasswd.ui \
+    AdminControlWidget.ui \
+    ClientMainWindow.ui \
+    InputAdminPasswordDialog.ui \
+    InputhostAddressDialog.ui \
+    NetworkConfigurationDialog.ui
 
 RESOURCES += \
     res.qrc
 
+INCLUDEPATH += /Users/Cary/Downloads/opencv-3.3.0/include
+INCLUDEPATH += /Users/Cary/Downloads/opencv-3.3.0/include/opencv
+INCLUDEPATH += /Users/Cary/Downloads/opencv-3.3.0/include/opencv2
 
+#------------------------------
+#LIBS += /Users/Cary/Downloads/opencv-3.3.0/lib/libopencv_core.3.3.0.dylib
+#LIBS += /Users/Cary/Downloads/opencv-3.3.0/lib/libopencv_highgui.3.3.0.dylib
+#LIBS += /Users/Cary/Downloads/opencv-3.3.0/lib/libopencv_imgproc.3.3.0.dylib
+#LIBS += /Users/Cary/Downloads/opencv-3.3.0/lib/libopencv_video.3.3.0.dylib
+
+#LIBS += /usr/local/lib/libopencv_highgui.so \
+ #       /usr/local/lib/libopencv_core.so    \
+ #       /usr/local/lib/libopencv_imgproc.so
+#---------------------------------------------------------
