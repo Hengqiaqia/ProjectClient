@@ -14,6 +14,9 @@
 #include "Utils.h"
 #include "ForgetPass.h"
 #include "UpdatePasswd.h"
+#include "LiveStreamList.h"
+#include "userpacket.h"
+
 
 namespace Ui {
 class LoginWindow;
@@ -43,6 +46,10 @@ private slots:
     void on_cb_autologin_stateChanged(int);
 
     void keyPressEvent(QKeyEvent * event);
+
+    void onSigReg(user_t user);//注册
+    void onSigLogin(user_t user);//登录
+
 private:
     Ui::LoginWindow *ui;
     Register* reg;// 注册页面
@@ -52,6 +59,10 @@ private:
     int loginnumber;
     ForgetPass* forgetpass;//忘记密码页面
     UpdatePasswd* updatepasswd;
+
+    LiveStreamList *liveStreamList;
+    ClientSocket *cs;
+    QMessageBox box;
 };
 
 #endif // LOGINWINDOW_H

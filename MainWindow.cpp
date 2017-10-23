@@ -61,15 +61,7 @@ void MainWindow::on_btn_voice_clicked()
 //视频
 void MainWindow::on_btn_video_clicked()
 {
-    ClientMainWindow w;
-    InputAdminPasswordDialog dialog;
-    connect(&dialog,SIGNAL(adminInfo_signals(QString,QString)),&w,SLOT(writeAdminNamePassWord(QString,QString)));
-    connect(&dialog,SIGNAL(sig_IpAndPort(QString,int)),&w,SLOT(setIPandPort(QString,int)));
-    connect(&w,SIGNAL(adminLoginResult_signals()),&dialog,SLOT(close()));
-    connect(&w,SIGNAL(sig_loginError()),&dialog,SLOT(slt_loginError()));
-    connect(&w,SIGNAL(connectError()),&dialog,SLOT(slt_connectError()));
-    connect(&dialog,SIGNAL(sig_quit()),this,SLOT(quit()));
-    dialog.show();
+
 }
 //搜索联系人
 void MainWindow::on_btn_search_clicked()
@@ -144,6 +136,7 @@ void MainWindow::showLayout(int flag)
         ui->lv_personnumber->hide();
         ui->te_sendcontent->hide();
         ui->label_welcome->hide();
+        ui->btn_addroom->show();//创建房间
     }
     else if(flag == 2)//群聊
     {
@@ -164,6 +157,7 @@ void MainWindow::showLayout(int flag)
         ui->lv_personnumber->show();
         ui->te_sendcontent->show();
         ui->label_welcome->hide();
+        ui->btn_addroom->show();
     }
     else if(flag == 3)// 欢迎界面
     {
@@ -175,6 +169,7 @@ void MainWindow::showLayout(int flag)
         ui->btn_sendfile->hide();
         ui->btn_video->hide();
         ui->btn_voice->hide();
+        ui->btn_addroom->hide();
 
         ui->lw_singlerescord->hide();
         ui->te_singalsendcontent->hide();
@@ -189,6 +184,13 @@ void MainWindow::showLayout(int flag)
         ui->label_welcome->show();
     }
 
+    ui->btn_addroom->setStyleSheet("QPushButton{background: transparent;}");
+    ui->btn_face->setStyleSheet("QPushButton{background: transparent;}");
+    ui->btn_screanshot->setStyleSheet("QPushButton{background: transparent;}");
+    ui->btn_search->setStyleSheet("QPushButton{background: transparent;}");
+    ui->btn_sendfile->setStyleSheet("QPushButton{background: transparent;}");
+    ui->btn_video->setStyleSheet("QPushButton{background: transparent;}");
+    ui->btn_voice->setStyleSheet("QPushButton{background: transparent;}");
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *e)
@@ -233,4 +235,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *e)
         }
     }
     return QMainWindow::eventFilter(obj, e);
+}
+//创建房间
+void MainWindow::on_btn_addroom_clicked()
+{
+
 }

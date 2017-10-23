@@ -36,11 +36,35 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->le_passwd->setEchoMode(QLineEdit::Password);
 
     socket = new QTcpSocket(this);
-    QObject::connect(socket,SIGNAL(error(QAbstractSocket::SocketError)),
-                     this,SLOT(onError(QAbstractSocket::SocketError)));
-    QObject::connect(socket,SIGNAL(readyRead()),
-                     this,SLOT(onReadRead()));
-    socket->connectToHost(QHostAddress::Any,8888);
+    //    QObject::connect(socket,SIGNAL(error(QAbstractSocket::SocketError)),
+    //                     this,SLOT(onError(QAbstractSocket::SocketError)));
+    //    QObject::connect(socket,SIGNAL(readyRead()),this,SLOT(onReadRead()));
+    //    socket->connectToHost(QHostAddress::Any,8888);
+
+    qRegisterMetaType<user_t>("user_t");        //向Qt注册user_t结构体
+
+    cs = new ClientSocket(socket);
+    QThread *th = new QThread();
+
+    //连接断开时删除子线程的内存
+    connect(socket, SIGNAL(disconnected()),
+            cs, SLOT(deleteLater()));
+    //连接断开时结束子线程
+    connect(socket, SIGNAL(disconnected()),
+            th, SLOT(quit()));
+    //接收到子线程返回的注册信息
+    connect(cs,SIGNAL(sigReg(user_t)),
+            this, SLOT(onSigReg(user_t)));
+    //接收到子线程返回的登录信息
+    connect(cs, SIGNAL(sigLogin(user_t)),
+            this, SLOT(onSigLogin(user_t)));
+
+    cs->moveToThread(th);   //客户端创建线程，在子线程执行读操作
+    th->start();
+
+    //    QHostAddress addr("192.168.1.103");
+    //    socket->connectToHost(addr, 8888);
+    socket->connectToHost(QHostAddress::LocalHost, 8888);
 
     User user =  utils->read();
     if(!user.getUsername().isEmpty())
@@ -55,6 +79,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
         ui->le_username->setText("");
         ui->le_passwd->setText( "");
     }
+
 }
 
 LoginWindow::~LoginWindow()
@@ -86,23 +111,39 @@ void LoginWindow::on_btn_login_clicked()
     }
     else
     {
+
+        user_t user;
+        memset(&user, 0, sizeof(user_t));
+        ui->le_username->clear();
+        char* pname = username.toLocal8Bit().data();
+        strncpy(user.username, pname, 20);
+
+        ui->le_passwd->clear();
+        char* ppasswd = passwd.toLocal8Bit().data();
+        strncpy(user.userpasswd,ppasswd,20);
+
+        user.type = LOGIN;
+        socket->write((char*)&user, sizeof(user));
+#if  0
         // 进入连接服务器 进入显示判断
         Packet data;
         strcpy(data.username,username.toStdString().data());
         strcpy(data.passwd,passwd.toStdString().data());
         data.type = TYPE_LOGIN;
         socket->write((char*)&data,sizeof(data));
-
+#endif
     }
 
 
 }
+
 //接收回来的信息
 void LoginWindow::onReadRead()
 {
     bool autologinflag =ui->cb_autologin->isChecked() ;
     bool remepassflag = ui->cb_remeberpw->isChecked();
     Packet data;
+    user_t user;
 
     socket->read((char*)&data,sizeof(data));
     QString username(data.username);
@@ -129,10 +170,12 @@ void LoginWindow::onReadRead()
         break;
     case TYPE_SELALL_SUCCESS:
         this->close();
+#if 1
+        //此页面仿QQ
         mainwindow = new MainWindow(socket,data);
         mainwindow->show();
+#endif
         qDebug()<<username<<":登录 成功跳转页面";
-
         //如果选中自动登录或者记住密码 保存数据到文件中
         if(autologinflag||remepassflag)
         {
@@ -140,6 +183,7 @@ void LoginWindow::onReadRead()
         }else{
             utils->write(0,utils->groupjson(ui->le_username->text(),""));
         }
+
         break;
     case TYPE_SELALL_ERROR:
         qDebug()<<username<<":登录失败";
@@ -152,12 +196,12 @@ void LoginWindow::onReadRead()
         break;
     case TYPE_UPDATE_SUCCESS:
 
-//         updatepasswd = new UpdatePasswd(socket,data);
-//         updatepasswd->close();
-//         forgetpass = new ForgetPass(socket,"");
-//         forgetpass->close();
+        //         updatepasswd = new UpdatePasswd(socket,data);
+        //         updatepasswd->close();
+        //         forgetpass = new ForgetPass(socket,"");
+        //         forgetpass->close();
         QMessageBox::information(this,"修改密码","修改成功，点击确认");
-       //修改密码
+        //修改密码
         ui->le_username->setText(QString(data.username));
         ui->le_passwd->setText("");
         break;
@@ -219,5 +263,54 @@ void LoginWindow::keyPressEvent(QKeyEvent *event)
     if(event->key()==Qt::Key_Return)
     {
         on_btn_login_clicked();
+    }
+}
+/*
+函数功能：注册
+参数：user_t user
+返回值：无
+*/
+void LoginWindow::onSigReg(user_t user)
+{
+    QString text = user.data;
+    if(text != "注册成功"){
+        box.warning(this, "警告", text);
+    }
+    else{
+        box.information(this, "提示", text);
+    }
+}
+
+
+/*
+函数功能：登录
+参数：user_t user
+返回值：无
+*/
+void LoginWindow::onSigLogin(user_t user)
+{
+    bool autologinflag =ui->cb_autologin->isChecked() ;
+    bool remepassflag = ui->cb_remeberpw->isChecked();
+
+    QString text = user.data;
+    qDebug()<<"登录："<<text;
+    if(text != "登陆成功"){
+        box.warning(this, "警告", text);
+    }
+    else{
+        this->close();
+        QString strtitle;
+        liveStreamList = new LiveStreamList(cs, socket, user, this);
+        strtitle= QString::fromLocal8Bit (user.username);
+        strtitle += ", 欢迎来到悦播";
+        liveStreamList->setWindowTitle (strtitle);
+        liveStreamList->move (1000,60);
+        liveStreamList->show();
+        if(autologinflag||remepassflag)
+        {
+            utils->write(0,utils->groupjson(ui->le_username->text(),ui->le_passwd->text()));
+        }else{
+            utils->write(0,utils->groupjson(ui->le_username->text(),""));
+        }
     }
 }

@@ -12,8 +12,6 @@
 #include "packet.h"
 #include <QKeyEvent>
 #include <QTextCodec>
-#include "InputhostAddressDialog.h"
-#include "ClientMainWindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -50,6 +48,8 @@ private slots:
 
 
     void on_lv_history_clicked(const QModelIndex &index);
+
+    void on_btn_addroom_clicked();
 
 private:
     Ui::MainWindow *ui;

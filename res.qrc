@@ -8,5 +8,11 @@
         <file>login_b.jpg</file>
         <file>login_c.jpg</file>
         <file>AppIcon.icns</file>
+        <file>video.png</file>
+        <file>refresh.jpg</file>
+        <file>userdialog.jpg</file>
+        <file>voice.png</file>
+        <file>videop.png</file>
+        <file>clientrecord_bg.jpg</file>
     </qresource>
 </RCC>

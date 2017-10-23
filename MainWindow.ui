@@ -224,7 +224,7 @@ border-image: url(:/new/prefix1/search_box_icon.png);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(255, 255, 0, 69), stop:0.375 rgba(255, 255, 0, 69), stop:0.423533 rgba(251, 255, 0, 145), stop:0.45 rgba(247, 255, 0, 208), stop:0.477581 rgba(255, 244, 71, 130), stop:0.518717 rgba(255, 218, 71, 130), stop:0.55 rgba(255, 255, 0, 255), stop:0.57754 rgba(255, 203, 0, 130), stop:0.625 rgba(255, 255, 0, 69), stop:1 rgba(255, 255, 0, 69));
+     <string notr="true">background-image: url(:/new/prefix1/client_bg.jpg);
 font: 75 20pt &quot;Hannotate SC&quot;;
 color: rgb(255, 0, 255);</string>
     </property>
@@ -232,6 +232,23 @@ color: rgb(255, 0, 255);</string>
      <string>欢迎使用聊天系统</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_addroom">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>0</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>addRoom</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>label_welcome</zorder>
    <zorder>le_serachpn</zorder>
    <zorder>btn_sendfile</zorder>
    <zorder>btn_search</zorder>
@@ -248,7 +265,7 @@ color: rgb(255, 0, 255);</string>
    <zorder>chatName</zorder>
    <zorder>lw_singlerescord</zorder>
    <zorder>te_singalsendcontent</zorder>
-   <zorder>label_welcome</zorder>
+   <zorder>btn_addroom</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

@@ -4,23 +4,41 @@
 #include <QTcpSocket>
 #include <QStringList>
 #include <QDataStream>
-#include "CommandType.h"
 
-class ClientSocket : public QTcpSocket
+#include "userpacket.h"
+
+class ClientSocket : public QObject
 {
     Q_OBJECT
 public:
-    explicit ClientSocket(QObject *parent = 0);
+    explicit ClientSocket(QTcpSocket *socket, QObject *parent = 0);
+
 signals:
     void videoDataCome(const QByteArray&data);//isCan
     void returnCmdContext(int cmd, const QByteArray& context);//isCMD
     void sig_isAdmin(int);//isADMIN
+
+    void sigReg(user_t user);//注册
+    void sigLogin(user_t user);//登录
+    void sigRoomName(user_t user);//房间名
+    void sigRoomList(user_t user);//房间列表
+    void sigChatName(user_t user);//聊天室用户
+    void sigChatList(user_t user);//聊天室用户列表
+    void sigMasterExit(user_t user);//房主退出
+    void sigChatText(user_t user);//文字聊天
+    void sigVideo(user_t user);//视频
+    void sigunVideo(user_t user);//关闭视频
+    void sigBs(user_t user);//弹幕
+
+
 public slots:
+    void onReadyRead();//读取服务器发回来的信息
     void writeCMD(const QByteArray& context);
 private slots:
     void dataComing();
 private:
     int size;
+    QTcpSocket *socket;
 
 };
 

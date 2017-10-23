@@ -6,7 +6,8 @@
 
 QT       += core gui
 QT       += network
-
+QT       += multimedia
+QT       += multimediawidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ProjectClient
@@ -34,13 +35,11 @@ SOURCES += \
     Utils.cpp \
     ForgetPass.cpp \
     UpdatePasswd.cpp \
-    AdminControlWidget.cpp \
-    ClientMainWindow.cpp \
     ClientSocket.cpp \
-    InputAdminPasswordDialog.cpp \
-    InputhostAddressDialog.cpp \
-    NetworkConfigurationDialog.cpp \
-    RecordAVI.cpp
+    LiveStream.cpp \
+    RoomManager.cpp \
+    VideoSurface.cpp \
+    LiveStreamList.cpp
 
 
 HEADERS += \
@@ -53,14 +52,12 @@ HEADERS += \
     Utils.h \
     ForgetPass.h \
     UpdatePasswd.h \
-    CommandType.h \
-    AdminControlWidget.h \
-    ClientMainWindow.h \
     ClientSocket.h \
-    InputAdminPasswordDialog.h \
-    InputhostAddressDialog.h \
-    NetworkConfigurationDialog.h \
-    RecordAVI.h
+    userpacket.h \
+    LiveStream.h \
+    RoomManager.h \
+    VideoSurface.h \
+    LiveStreamList.h
 
 FORMS += \
         MainWindow.ui \
@@ -72,7 +69,9 @@ FORMS += \
     ClientMainWindow.ui \
     InputAdminPasswordDialog.ui \
     InputhostAddressDialog.ui \
-    NetworkConfigurationDialog.ui
+    NetworkConfigurationDialog.ui \
+    LiveStream.ui \
+    LiveStreamList.ui
 
 RESOURCES += \
     res.qrc
